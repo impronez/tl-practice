@@ -18,10 +18,10 @@ public class Dictionary
     {
         if (string.IsNullOrEmpty(word))
             throw new ArgumentNullException(nameof(word), "Word cannot be empty");
-        
+
         if (string.IsNullOrEmpty(translation))
             throw new ArgumentNullException(nameof(word), "Translation cannot be empty");
-        
+
         if (_dictionary.ContainsKey(word) && !_dictionary[word].Contains(translation))
             _dictionary[word].Add(translation);
         else if (!_dictionary.ContainsKey(word))
@@ -32,7 +32,7 @@ public class Dictionary
     {
         if (string.IsNullOrEmpty(word))
             throw new ArgumentNullException(nameof(word), "Word cannot be empty");
-        
+
         return !_dictionary.TryGetValue(word, out var value) ? [] : value.ToArray();
     }
 

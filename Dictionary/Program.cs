@@ -24,7 +24,7 @@ class Program
         while (true)
         {
             Console.Write("Enter a command: ");
-            
+
             var input = Console.ReadLine();
 
             if (input == GetTranslationCommandString)
@@ -43,20 +43,20 @@ class Program
     private static void RunGetTranslationMenu(Dictionary dictionary)
     {
         var word = GetStringFromConsole("word");
-        
+
         var translationResult = dictionary.GetTranslation(word);
         if (translationResult.Length > 0)
         {
             Console.WriteLine($"Translation: {string.Join(", ", translationResult)}");
             return;
         }
-        
+
         Console.Write("If you want add translation to a dictionary, enter any symbol or press 'enter' to exit: ");
-        
+
         var input = Console.ReadLine();
         if (string.IsNullOrEmpty(input))
             return;
-        
+
         RunAddTranslationMenu(dictionary, word);
     }
 
@@ -66,9 +66,9 @@ class Program
         {
             word = GetStringFromConsole("word");
         }
-        
+
         var translation = GetStringFromConsole("translation");
-        
+
         dictionary.AddTranslation(word, translation);
     }
 
@@ -79,7 +79,7 @@ class Program
             $"\n{AddTranslationCommandString} - add translation;" +
             $"\n{PrintMenuCommandString} - print menu;" +
             $"\n{ExitCommandString} - exit.";
-        
+
         Console.WriteLine(menuString);
     }
 
@@ -88,11 +88,11 @@ class Program
         while (true)
         {
             Console.Write($"Enter a {parameterName}: ");
-            
+
             var input = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(input))
                 return input;
-            
+
             Console.Write("Invalid value! ");
         }
     }
