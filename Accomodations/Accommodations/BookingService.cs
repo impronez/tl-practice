@@ -118,9 +118,9 @@ public class BookingService : IBookingService
             throw new ArgumentException("Start date cannot be earlier than now date");
         }
 
-        int daysBeforeArrival = (DateTime.Now - booking.StartDate).Days;
+        var daysBeforeArrival = (booking.StartDate - DateTime.Now).Days;
 
-        return 5000.0m / daysBeforeArrival;
+        return 5000.0m / (daysBeforeArrival == 0 ? 1 : daysBeforeArrival);
     }
 
     private static decimal GetCurrencyRate(Currency currency)
