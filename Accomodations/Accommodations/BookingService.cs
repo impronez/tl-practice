@@ -27,7 +27,7 @@ public class BookingService : IBookingService
         {
             throw new ArgumentException("Start date cannot be earlier or equal than now date");
         }
-        
+
         if (endDate <= startDate)
         {
             throw new ArgumentException("End date cannot be earlier or equal than start date");

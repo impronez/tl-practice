@@ -84,6 +84,20 @@ public static class AccommodationsProcessor
         Console.WriteLine("Booking command run is successful.");
     }
 
+    private static void ProcessUndoCommand()
+    {
+        if (!_executedCommands.TryGetValue(s_commandIndex, out var value))
+        {
+            Console.WriteLine("There are no executed commands.");
+            return;
+        }
+
+        value.Undo();
+        _executedCommands.Remove(s_commandIndex);
+        s_commandIndex--;
+        Console.WriteLine("Last command undone.");
+    }
+
     private static void ProcessCancelCommand(string[] parts)
     {
         if (parts.Length != 2)
@@ -102,20 +116,6 @@ public static class AccommodationsProcessor
         cancelCommand.Execute();
         _executedCommands.Add(++s_commandIndex, cancelCommand);
         Console.WriteLine("Cancellation command run is successful.");
-    }
-
-    private static void ProcessUndoCommand()
-    {
-        if (!_executedCommands.TryGetValue(s_commandIndex, out var value))
-        {
-            Console.WriteLine("There are no executed commands.");
-            return;
-        }
-
-        value.Undo();
-        _executedCommands.Remove(s_commandIndex);
-        s_commandIndex--;
-        Console.WriteLine("Last command undone.");
     }
 
     private static void ProcessFindCommand(string[] parts)
