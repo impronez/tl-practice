@@ -74,7 +74,7 @@ public class BookingService : IBookingService
             throw new ArgumentException($"Booking with id: '{bookingId}' does not exist");
         }
 
-        if (booking.StartDate <= DateTime.Now)
+        if (booking.StartDate <= DateTime.Today)
         {
             throw new ArgumentException("Start date cannot be earlier than now date");
         }
