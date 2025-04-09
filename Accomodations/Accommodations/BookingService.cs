@@ -145,7 +145,7 @@ public class BookingService : IBookingService
     private static decimal CalculateBookingCost(decimal baseRate, int days, int userId, decimal currencyRate)
     {
         decimal cost = baseRate * days;
-        decimal totalCost = cost - cost * CalculateDiscount(userId) * currencyRate;
+        decimal totalCost = cost * currencyRate * (1 - CalculateDiscount(userId));
         return totalCost;
     }
 }
