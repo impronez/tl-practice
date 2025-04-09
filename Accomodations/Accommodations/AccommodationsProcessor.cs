@@ -1,3 +1,4 @@
+using System.Globalization;
 using Accommodations.Commands;
 using Accommodations.Dto;
 
@@ -66,7 +67,8 @@ public static class AccommodationsProcessor
     {
         if (parts.Length != 6)
         {
-            Console.WriteLine("Invalid number of arguments for booking.");
+            Console.WriteLine(
+                "Invalid number of arguments for booking. Expected format: 'book <UserId> <Category> <StartDate> <EndDate> <Currency>'");
             return;
         }
 
@@ -82,7 +84,7 @@ public static class AccommodationsProcessor
     {
         if (parts.Length != 2)
         {
-            Console.WriteLine("Invalid number of arguments for canceling.");
+            Console.WriteLine("Invalid number of arguments for canceling. Expected format: 'cancel <BookingId>'");
             return;
         }
 
@@ -157,6 +159,7 @@ public static class AccommodationsProcessor
         }
 
         var categoryName = parts[3];
+
         SearchBookingsCommand searchCommand = new(_bookingService, startDate, endDate, categoryName);
         searchCommand.Execute();
     }
