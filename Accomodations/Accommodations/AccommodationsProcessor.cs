@@ -27,7 +27,7 @@ public static class AccommodationsProcessor
             {
                 ProcessCommand(input);
             }
-            catch (Exception ex)
+            catch (ArgumentException ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
@@ -36,81 +36,103 @@ public static class AccommodationsProcessor
 
     private static void ProcessCommand(string input)
     {
-        string[] parts = input.Split(' ');
-        string commandName = parts[0];
+        var parts = input.Split(' ');
+        var commandName = parts[0];
 
         switch (commandName)
         {
             case "book":
-                if (parts.Length != 6)
-                {
-                    Console.WriteLine("Invalid number of arguments for booking.");
-                    return;
-                }
-
-                var bookingDto = BookingDto.Create(parts[1], parts[2], parts[3], parts[4], parts[5]);
-
-                BookCommand bookCommand = new(_bookingService, bookingDto);
-                bookCommand.Execute();
-                _executedCommands.Add(++s_commandIndex, bookCommand);
-                Console.WriteLine("Booking command run is successful.");
+                ProcessBookCommand(parts);
                 break;
-
             case "cancel":
-                if (parts.Length != 2)
-                {
-                    Console.WriteLine("Invalid number of arguments for canceling.");
-                    return;
-                }
-
-                Guid bookingId = Guid.Parse(parts[1]);
-                CancelBookingCommand cancelCommand = new(_bookingService, bookingId);
-                cancelCommand.Execute();
-                _executedCommands.Add(++s_commandIndex, cancelCommand);
-                Console.WriteLine("Cancellation command run is successful.");
+                ProcessCancelCommand(parts);
                 break;
-
             case "undo":
-                if (!_executedCommands.ContainsKey(s_commandIndex))
-                {
-                    Console.WriteLine("No booking command run is successful.");
-                    return;
-                }
-                
-                _executedCommands[s_commandIndex].Undo();
-                _executedCommands.Remove(s_commandIndex);
-                s_commandIndex--;
-                Console.WriteLine("Last command undone.");
-
+                ProcessUndoCommand();
                 break;
-            
             case "find":
-                if (parts.Length != 2)
-                {
-                    Console.WriteLine("Invalid arguments for 'find'. Expected format: 'find <BookingId>'");
-                    return;
-                }
-                Guid id = Guid.Parse(parts[1]);
-                FindBookingByIdCommand findCommand = new(_bookingService, id);
-                findCommand.Execute();
+                ProcessFindCommand(parts);
                 break;
-
             case "search":
-                if (parts.Length != 4)
-                {
-                    Console.WriteLine("Invalid arguments for 'search'. Expected format: 'search <StartDate> <EndDate> <CategoryName>'");
-                    return;
-                }
-                DateTime startDate = DateTime.Parse(parts[1]);
-                DateTime endDate = DateTime.Parse(parts[2]);
-                string categoryName = parts[3];
-                SearchBookingsCommand searchCommand = new(_bookingService, startDate, endDate, categoryName);
-                searchCommand.Execute();
+                ProcessSearchCommand(parts);
                 break;
-
             default:
                 Console.WriteLine("Unknown command.");
                 break;
         }
+    }
+
+    private static void ProcessBookCommand(string[] parts)
+    {
+        if (parts.Length != 6)
+        {
+            Console.WriteLine("Invalid number of arguments for booking.");
+            return;
+        }
+
+        var bookingDto = BookingDto.Create(parts[1], parts[2], parts[3], parts[4], parts[5]);
+
+        BookCommand bookCommand = new(_bookingService, bookingDto);
+        bookCommand.Execute();
+        _executedCommands.Add(++s_commandIndex, bookCommand);
+        Console.WriteLine("Booking command run is successful.");
+    }
+
+    private static void ProcessCancelCommand(string[] parts)
+    {
+        if (parts.Length != 2)
+        {
+            Console.WriteLine("Invalid number of arguments for canceling.");
+            return;
+        }
+
+        var bookingId = Guid.Parse(parts[1]);
+        CancelBookingCommand cancelCommand = new(_bookingService, bookingId);
+        cancelCommand.Execute();
+        _executedCommands.Add(++s_commandIndex, cancelCommand);
+        Console.WriteLine("Cancellation command run is successful.");
+    }
+
+    private static void ProcessUndoCommand()
+    {
+        if (!_executedCommands.TryGetValue(s_commandIndex, out var value))
+        {
+            Console.WriteLine("There are no executed commands.");
+            return;
+        }
+
+        value.Undo();
+        _executedCommands.Remove(s_commandIndex);
+        s_commandIndex--;
+        Console.WriteLine("Last command undone.");
+    }
+
+    private static void ProcessFindCommand(string[] parts)
+    {
+        if (parts.Length != 2)
+        {
+            Console.WriteLine("Invalid arguments for 'find'. Expected format: 'find <BookingId>'");
+            return;
+        }
+
+        var id = Guid.Parse(parts[1]);
+        FindBookingByIdCommand findCommand = new(_bookingService, id);
+        findCommand.Execute();
+    }
+
+    private static void ProcessSearchCommand(string[] parts)
+    {
+        if (parts.Length != 4)
+        {
+            Console.WriteLine(
+                "Invalid arguments for 'search'. Expected format: 'search <StartDate> <EndDate> <CategoryName>'");
+            return;
+        }
+
+        var startDate = DateTime.Parse(parts[1]);
+        var endDate = DateTime.Parse(parts[2]);
+        var categoryName = parts[3];
+        SearchBookingsCommand searchCommand = new(_bookingService, startDate, endDate, categoryName);
+        searchCommand.Execute();
     }
 }
