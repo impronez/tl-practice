@@ -28,7 +28,7 @@ public static class AccommodationsProcessor
             {
                 ProcessCommand(input);
             }
-            catch (ArgumentException ex)
+            catch (Exception ex)
             {
                 Console.WriteLine($"Error: {ex.Message}");
             }
