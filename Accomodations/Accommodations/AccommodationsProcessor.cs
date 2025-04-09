@@ -72,7 +72,11 @@ public static class AccommodationsProcessor
             return;
         }
 
-        var bookingDto = BookingDto.Create(parts[1], parts[2], parts[3], parts[4], parts[5]);
+        var bookingDto = BookingDto.Create(parts[1],
+            parts[2],
+            parts[3],
+            parts[4],
+            parts[5]);
 
         BookCommand bookCommand = new(_bookingService, bookingDto);
         bookCommand.Execute();
