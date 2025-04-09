@@ -1,3 +1,5 @@
+using System.Globalization;
+
 namespace Accommodations.Dto;
 
 public class BookingDto
@@ -12,11 +14,11 @@ public class BookingDto
         if (!isCorrectId)
             throw new ArgumentException($"Invalid user id: '{userIdString}. User id must be an integer'");
 
-        var isCorrectStartDate = DateTime.TryParse(startDateString, out var startDate);
+        var isCorrectStartDate = DateTime.TryParse(startDateString, CultureInfo.InvariantCulture, out var startDate);
         if (!isCorrectStartDate)
             throw new ArgumentException($"Invalid start date: '{startDateString}. Date format: 'MM/DD/YYYY'");
 
-        var isCorrectEndDate = DateTime.TryParse(endDateString, out var endDate);
+        var isCorrectEndDate = DateTime.TryParse(endDateString, CultureInfo.InvariantCulture, out var endDate);
         if (!isCorrectEndDate)
             throw new ArgumentException($"Invalid end date: '{endDateString}. Date format: 'MM/DD/YYYY'");
 
