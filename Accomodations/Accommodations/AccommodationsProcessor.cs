@@ -86,7 +86,12 @@ public static class AccommodationsProcessor
             return;
         }
 
-        var bookingId = Guid.Parse(parts[1]);
+        var isBookingIdParseSuccess = Guid.TryParse(parts[1], out var bookingId);
+        if (!isBookingIdParseSuccess)
+        {
+            throw new ArgumentException($"Invalid id format: '{parts[1]}'. Use guid-format");
+        }
+
         CancelBookingCommand cancelCommand = new(_bookingService, bookingId);
         cancelCommand.Execute();
         _executedCommands.Add(++s_commandIndex, cancelCommand);
@@ -115,8 +120,13 @@ public static class AccommodationsProcessor
             return;
         }
 
-        var id = Guid.Parse(parts[1]);
-        FindBookingByIdCommand findCommand = new(_bookingService, id);
+        var isBookingIdParseSuccess = Guid.TryParse(parts[1], out var bookingId);
+        if (!isBookingIdParseSuccess)
+        {
+            throw new ArgumentException($"Invalid id format: '{parts[1]}'. Use guid-format");
+        }
+
+        FindBookingByIdCommand findCommand = new(_bookingService, bookingId);
         findCommand.Execute();
     }
 
@@ -129,8 +139,23 @@ public static class AccommodationsProcessor
             return;
         }
 
-        var startDate = DateTime.Parse(parts[1]);
-        var endDate = DateTime.Parse(parts[2]);
+        var isStartDateParseSuccess = DateTime.TryParse(parts[1], CultureInfo.InvariantCulture, out var startDate);
+        if (!isStartDateParseSuccess)
+        {
+            throw new ArgumentException($"Invalid start date format: '{parts[1]}'. Use: MM/DD/YYYY");
+        }
+
+        var isEndDateParseSuccess = DateTime.TryParse(parts[2], CultureInfo.InvariantCulture, out var endDate);
+        if (!isEndDateParseSuccess)
+        {
+            throw new ArgumentException($"Invalid end date format: '{parts[2]}'. Use: MM/DD/YYYY");
+        }
+
+        if (string.IsNullOrEmpty(parts[3]))
+        {
+            throw new ArgumentException($"Invalid category name: '{parts[3]}'. Use: 'Standard'/'Deluxe'");
+        }
+
         var categoryName = parts[3];
         SearchBookingsCommand searchCommand = new(_bookingService, startDate, endDate, categoryName);
         searchCommand.Execute();
