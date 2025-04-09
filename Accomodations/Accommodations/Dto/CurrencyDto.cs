@@ -7,5 +7,5 @@ public enum CurrencyDto
 {
     Usd,
     Rub,
-    Cny,
+    Cny
 }
