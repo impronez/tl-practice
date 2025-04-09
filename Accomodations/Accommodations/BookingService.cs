@@ -76,7 +76,7 @@ public class BookingService : IBookingService
 
         if (booking.StartDate <= DateTime.Today)
         {
-            throw new ArgumentException("Start date cannot be earlier than now date");
+            throw new ArgumentException("Start date cannot be earlier or equal than now date");
         }
 
         Console.WriteLine($"Refund of {booking.Cost} {booking.Currency}");
