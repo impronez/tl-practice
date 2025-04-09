@@ -1,4 +1,3 @@
-using System.Globalization;
 using Accommodations.Commands;
 using Accommodations.Dto;
 
@@ -49,16 +48,7 @@ public static class AccommodationsProcessor
                     return;
                 }
 
-                CurrencyDto currency = (CurrencyDto) Enum.Parse(typeof(CurrencyDto), parts[5], true);
-
-                BookingDto bookingDto = new()
-                {
-                    UserId = int.Parse(parts[1]),
-                    Category = parts[2],
-                    StartDate = DateTime.Parse(parts[3]),
-                    EndDate = DateTime.Parse(parts[4]),
-                    Currency = currency,
-                };
+                var bookingDto = BookingDto.Create(parts[1], parts[2], parts[3], parts[4], parts[5]);
 
                 BookCommand bookCommand = new(_bookingService, bookingDto);
                 bookCommand.Execute();
