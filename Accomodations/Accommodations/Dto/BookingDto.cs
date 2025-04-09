@@ -12,22 +12,22 @@ public class BookingDto
     {
         var isCorrectId = int.TryParse(userIdString, out var id);
         if (!isCorrectId)
-            throw new ArgumentException($"Invalid user id: '{userIdString}. User id must be an integer'");
+            throw new ArgumentException($"Invalid user id: '{userIdString}'. User id must be an integer'");
 
         var isCorrectStartDate = DateTime.TryParse(startDateString, CultureInfo.InvariantCulture, out var startDate);
         if (!isCorrectStartDate)
-            throw new ArgumentException($"Invalid start date: '{startDateString}. Date format: 'MM/DD/YYYY'");
+            throw new ArgumentException($"Invalid start date: '{startDateString}'. Date format: 'MM/DD/YYYY'");
 
         var isCorrectEndDate = DateTime.TryParse(endDateString, CultureInfo.InvariantCulture, out var endDate);
         if (!isCorrectEndDate)
-            throw new ArgumentException($"Invalid end date: '{endDateString}. Date format: 'MM/DD/YYYY'");
+            throw new ArgumentException($"Invalid end date: '{endDateString}'. Date format: 'MM/DD/YYYY'");
 
         if (string.IsNullOrWhiteSpace(category))
             throw new ArgumentException("Empty category");
 
         var isCorrectCurrency = Enum.TryParse(currencyString, true, out CurrencyDto currency);
         if (!isCorrectCurrency)
-            throw new ArgumentException("Invalid currency");
+            throw new ArgumentException($"Invalid currency: {currencyString}");
 
         return new BookingDto
         {
