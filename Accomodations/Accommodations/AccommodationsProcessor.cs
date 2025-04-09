@@ -81,12 +81,19 @@ public static class AccommodationsProcessor
                 break;
 
             case "undo":
+                if (!_executedCommands.ContainsKey(s_commandIndex))
+                {
+                    Console.WriteLine("No booking command run is successful.");
+                    return;
+                }
+                
                 _executedCommands[s_commandIndex].Undo();
                 _executedCommands.Remove(s_commandIndex);
                 s_commandIndex--;
                 Console.WriteLine("Last command undone.");
 
                 break;
+            
             case "find":
                 if (parts.Length != 2)
                 {
