@@ -87,7 +87,10 @@ public class BookingService : IBookingService
         Console.WriteLine($"Refund of {booking.Cost} {booking.Currency}");
         _bookings.Remove(booking);
         RoomCategory? category = _categories.FirstOrDefault(c => c.Name == booking.RoomCategory.Name);
-        category.AvailableRooms++;
+        if (category != null)
+        {
+            category.AvailableRooms++;
+        }
     }
 
     private static decimal CalculateDiscount(int userId)
