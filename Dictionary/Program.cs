@@ -36,7 +36,7 @@ class Program
             else if (input == ExitCommandString)
                 break;
             else
-                Console.Write("Invalid command! ");
+                Console.WriteLine($"Invalid command: {input}. Please try again.");
         }
     }
 
@@ -54,8 +54,7 @@ class Program
         Console.Write("If you want add translation to a dictionary, enter any symbol or press 'enter' to exit: ");
 
         var input = Console.ReadLine();
-        if (string.IsNullOrEmpty(input))
-            return;
+        if (string.IsNullOrEmpty(input)) return;
 
         RunAddTranslationMenu(dictionary, word);
     }
@@ -90,10 +89,9 @@ class Program
             Console.Write($"Enter a {parameterName}: ");
 
             var input = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(input))
-                return input;
+            if (!string.IsNullOrWhiteSpace(input)) return input;
 
-            Console.Write("Invalid value! ");
+            Console.WriteLine($"Invalid value: {input}. Please try again.");
         }
     }
 }
