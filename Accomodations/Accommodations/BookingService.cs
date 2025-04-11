@@ -23,9 +23,9 @@ public class BookingService : IBookingService
 
     public Booking Book(int userId, string categoryName, DateTime startDate, DateTime endDate, Currency currency)
     {
-        if (startDate <= DateTime.Today)
+        if (startDate < DateTime.Today)
         {
-            throw new ArgumentException("Start date cannot be earlier or equal than now date");
+            throw new ArgumentException("Start date cannot be earlier than now date");
         }
 
         if (endDate <= startDate)
