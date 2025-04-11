@@ -104,7 +104,7 @@ public static class AccommodationsProcessor
             return;
         }
 
-        var isBookingIdParseSuccess = Guid.TryParse(parts[1], out var bookingId);
+        var isBookingIdParseSuccess = Guid.TryParse(parts[1], out Guid bookingId);
         if (!isBookingIdParseSuccess)
         {
             throw new ArgumentException($"Invalid id format: '{parts[1]}'. Use guid-format");
