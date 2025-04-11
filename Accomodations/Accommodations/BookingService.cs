@@ -47,7 +47,7 @@ public class BookingService : IBookingService
         User? user = _users.FirstOrDefault(u => u.Id == userId);
         if (user == null)
         {
-            throw new ArgumentException("User not found");
+            throw new ArgumentException($"User not found: [{userId}]");
         }
 
         int days = (endDate - startDate).Days;
