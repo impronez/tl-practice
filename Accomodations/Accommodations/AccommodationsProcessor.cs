@@ -7,8 +7,7 @@ namespace Accommodations;
 public static class AccommodationsProcessor
 {
     private static BookingService _bookingService = new();
-    private static Dictionary<int, ICommand> _executedCommands = new();
-    private static int s_commandIndex = 0;
+    private static CommandHistory _commandHistory = new();
 
     public static void Run()
     {
@@ -80,21 +79,20 @@ public static class AccommodationsProcessor
 
         BookCommand bookCommand = new(_bookingService, bookingDto);
         bookCommand.Execute();
-        _executedCommands.Add(++s_commandIndex, bookCommand);
+        _commandHistory.AddCommmand(bookCommand);
         Console.WriteLine("Booking command run is successful.");
     }
 
     private static void ProcessUndoCommand()
     {
-        if (!_executedCommands.TryGetValue(s_commandIndex, out var value))
+        if (!_commandHistory.TryGetLastCommand(out var value))
         {
             Console.WriteLine("There are no executed commands.");
             return;
         }
 
         value.Undo();
-        _executedCommands.Remove(s_commandIndex);
-        s_commandIndex--;
+        _commandHistory.RemoveLastCommand();
         Console.WriteLine("Last command undone.");
     }
 
@@ -114,7 +112,7 @@ public static class AccommodationsProcessor
 
         CancelBookingCommand cancelCommand = new(_bookingService, bookingId);
         cancelCommand.Execute();
-        _executedCommands.Add(++s_commandIndex, cancelCommand);
+        _commandHistory.AddCommmand(cancelCommand);
         Console.WriteLine("Cancellation command run is successful.");
     }
 
