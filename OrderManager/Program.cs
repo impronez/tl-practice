@@ -18,14 +18,19 @@ while (true)
 
 PrintSuccessfulOrderConfirmationMessage(productName, productQuantity, userName, deliveryAddress);
 
-static void PrintSuccessfulOrderConfirmationMessage(string productName, uint productQuantity, string userName,
+static void PrintSuccessfulOrderConfirmationMessage(string productName,
+    uint productQuantity,
+    string userName,
     string deliveryAddress)
 {
     Console.WriteLine(
         $"{userName}! Ваш заказ '{productName}' в количестве {productQuantity} шт. оформлен! Доставка по адресу: {deliveryAddress}");
 }
 
-static bool IsCorrectOrderData(string productName, uint productQuantity, string userName, string deliveryAddress)
+static bool IsCorrectOrderData(string productName,
+    uint productQuantity,
+    string userName,
+    string deliveryAddress)
 {
     Console.WriteLine(
         $"{userName}, вы заказали '{productName}' в количестве {productQuantity} шт. на адрес '{deliveryAddress}'.");
