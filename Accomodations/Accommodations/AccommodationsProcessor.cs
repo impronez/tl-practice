@@ -57,7 +57,7 @@ public static class AccommodationsProcessor
                 ProcessSearchCommand(parts);
                 break;
             default:
-                Console.WriteLine("Unknown command.");
+                Console.WriteLine($"Unknown command: [{commandName}]");
                 break;
         }
     }
