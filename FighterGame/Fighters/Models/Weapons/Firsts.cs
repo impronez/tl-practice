@@ -1,10 +1,6 @@
-﻿namespace Fighters.Models.Weapons
+﻿namespace Fighters.Models.Weapons;
+
+public struct Firsts : IWeapon
 {
-    public class Firsts : IWeapon
-    {
-        public int Damage
-        {
-            get => 1;
-        }
-    }
+    public int Damage => 5;
 }

@@ -1,7 +1,6 @@
-﻿namespace Fighters.Models.Armors
+﻿namespace Fighters.Models.Armors;
+
+public struct NoArmor : IArmor
 {
-    public class NoArmor : IArmor
-    {
-        public int Armor => 0;
-    }
+    public int Armor => 0;
 }

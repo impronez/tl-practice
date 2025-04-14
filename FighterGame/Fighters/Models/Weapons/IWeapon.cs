@@ -1,7 +1,6 @@
-﻿namespace Fighters.Models.Weapons
+﻿namespace Fighters.Models.Weapons;
+
+public interface IWeapon
 {
-    public interface IWeapon
-    {
-        public int Damage { get; }
-    }
+    public int Damage { get; }
 }
