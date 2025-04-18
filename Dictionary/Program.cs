@@ -63,7 +63,11 @@ class Program
         Console.WriteLine($"Translation of [{word}] is not found.");
         Console.Write("If you want add translation to a dictionary, press any symbol or press 'enter' to exit: ");
 
-        if (Console.ReadKey().Key == ConsoleKey.Enter) return;
+        if (Console.ReadKey().Key == ConsoleKey.Enter)
+        {
+            return;
+        }
+        
         Console.WriteLine();
 
         RunAddTranslationMenu(dictionary, word);
@@ -99,7 +103,10 @@ class Program
             Console.Write($"Enter a {parameterName}: ");
 
             string? input = Console.ReadLine();
-            if (!string.IsNullOrWhiteSpace(input)) return input;
+            if (!string.IsNullOrWhiteSpace(input))
+            {
+                return input;
+            }
 
             Console.WriteLine($"Invalid value: '{input}'. Please try again.");
         }
