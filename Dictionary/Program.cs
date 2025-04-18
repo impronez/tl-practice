@@ -7,9 +7,11 @@ class Program
     private const string PrintMenuCommandString = "3";
     private const string ExitCommandString = "4";
 
+    private static readonly string FilePath = "dict.txt";
+
     static void Main()
     {
-        var dictionary = new Dictionary();
+        Dictionary dictionary = new Dictionary(FilePath);
 
         RunMenu(dictionary);
 
@@ -25,26 +27,33 @@ class Program
         {
             Console.Write("Enter a command: ");
 
-            var input = Console.ReadLine();
+            string? input = Console.ReadLine();
 
-            if (input == GetTranslationCommandString)
-                RunGetTranslationMenu(dictionary);
-            else if (input == AddTranslationCommandString)
-                RunAddTranslationMenu(dictionary);
-            else if (input == PrintMenuCommandString)
-                PrintMenu();
-            else if (input == ExitCommandString)
-                break;
-            else
-                Console.WriteLine($"Invalid command: {input}. Please try again.");
+            switch (input)
+            {
+                case GetTranslationCommandString:
+                    RunGetTranslationMenu(dictionary);
+                    break;
+                case AddTranslationCommandString:
+                    RunAddTranslationMenu(dictionary);
+                    break;
+                case PrintMenuCommandString:
+                    PrintMenu();
+                    break;
+                case ExitCommandString:
+                    return;
+                default:
+                    Console.WriteLine($"Invalid command: {input}. Please try again.");
+                    break;
+            }
         }
     }
 
     private static void RunGetTranslationMenu(Dictionary dictionary)
     {
-        var word = GetStringFromConsole("word");
+        string word = GetStringFromConsole("word");
 
-        var translationResult = dictionary.GetTranslation(word);
+        string[] translationResult = dictionary.GetTranslations(word);
         if (translationResult.Length > 0)
         {
             Console.WriteLine($"Translation: {string.Join(", ", translationResult)}");
@@ -67,7 +76,7 @@ class Program
             word = GetStringFromConsole("word");
         }
 
-        var translation = GetStringFromConsole("translation");
+        string translation = GetStringFromConsole("translation");
 
         dictionary.AddTranslation(word, translation);
     }
@@ -89,7 +98,7 @@ class Program
         {
             Console.Write($"Enter a {parameterName}: ");
 
-            var input = Console.ReadLine();
+            string? input = Console.ReadLine();
             if (!string.IsNullOrWhiteSpace(input)) return input;
 
             Console.WriteLine($"Invalid value: '{input}'. Please try again.");
