@@ -2,13 +2,16 @@ using Fighters.Models.Armors;
 using Fighters.Models.FighterTypes;
 using Fighters.Models.Races;
 using Fighters.Models.Weapons;
+using Fighters.Utilities.RandomService;
 
 namespace Fighters.Models.Fighters;
 
 public class Fighter : IFighter
 {
-    private const int MinDamageRatioInPercent = -20;
-    private const int MaxDamageRatioInPercent = 10;
+    private const float MinDamageRatio = -0.2f;
+    private const float MaxDamageRatio = 0.1f;
+
+    private IRandomService _randomService;
 
     public Fighter(string name,
         int initiative,
@@ -17,6 +20,8 @@ public class Fighter : IFighter
         IArmor armor,
         IWeapon weapon)
     {
+        _randomService = new RandomService();
+
         Name = name;
         Initiative = initiative;
         Race = race;
@@ -38,8 +43,14 @@ public class Fighter : IFighter
 
     public int CalculateDamage()
     {
-        var damage = Race.Damage + FighterType.Damage + Weapon.Damage;
-        var ratio = 1f + Random.Shared.Next(MinDamageRatioInPercent, MaxDamageRatioInPercent) / 100f;
+        int damage = Race.Damage + FighterType.Damage + Weapon.Damage;
+        if (damage <= 0)
+        {
+            return 0;
+        }
+
+        float ratio = 1f + _randomService.NextFloat(MinDamageRatio, MaxDamageRatio);
+
         if (IsCriticalDamage())
         {
             damage *= 2;
@@ -57,9 +68,22 @@ public class Fighter : IFighter
 
     public bool IsAlive() => CurrentHealth > 0;
 
-    private static bool IsCriticalDamage()
+    public string GetStats()
     {
-        var random = Random.Shared.Next(1, 50);
-        return random is > 30 and < 40;
+        var stats = $"Name: {Name}\n";
+        stats += $"Fighter type: {FighterType.Name}";
+        stats += $"Health: {GetMaxHealth()}\n";
+        stats += $"Armor: {CalculateArmor()}\n";
+        stats += $"Race: {Race.Name}\n";
+        stats += $"Weapon: {Weapon.Name}\n";
+
+        return stats;
+    }
+
+    private bool IsCriticalDamage()
+    {
+        int value = _randomService.NextInt(1, 50);
+
+        return value is > 30 and < 40;
     }
 }

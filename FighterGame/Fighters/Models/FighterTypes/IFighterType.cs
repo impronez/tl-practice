@@ -1,8 +1,7 @@
 namespace Fighters.Models.FighterTypes;
 
-public interface IFighterType
+public interface IFighterType : IHaveName
 {
-    public string Name { get; }
     public int Health { get; }
     public int Damage { get; }
 }

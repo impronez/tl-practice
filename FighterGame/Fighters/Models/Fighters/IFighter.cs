@@ -20,5 +20,6 @@ namespace Fighters.Models.Fighters
         public int CalculateArmor();
         public void TakeDamage(int damage);
         public bool IsAlive();
+        public string GetStats();
     }
 }
