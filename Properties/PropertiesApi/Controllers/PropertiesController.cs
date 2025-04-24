@@ -1,4 +1,5 @@
 using Microsoft.AspNetCore.Mvc;
+using Properties.Domain.Repositories;
 using PropertiesApi.Contracts;
 
 namespace PropertiesApi.Controllers;
@@ -7,30 +8,35 @@ namespace PropertiesApi.Controllers;
 [Route("api/properties")]
 public class PropertiesController : ControllerBase
 {
-    private static List<Entities.Property> _properties = [];
-    
-    [HttpPost]
-    public IActionResult Create([FromBody]CreatePropertyRequest createPropertyRequest)
+    private readonly IPropertiesRepository _propertiesRepository;
+
+    public PropertiesController(IPropertiesRepository propertiesRepository)
     {
-        var property = new Entities.Property(createPropertyRequest.Name);
-        _properties.Add(property);
+        _propertiesRepository = propertiesRepository;
+    }
+
+    [HttpPost]
+    public IActionResult Create([FromBody] CreatePropertyRequest createPropertyRequest)
+    {
+        var property = new Properties.Domain.Entities.Property(createPropertyRequest.Name);
+        _propertiesRepository.Add(property);
         
         return Created();
     }
-
+    
     [HttpGet]
     public IActionResult GetAll()
     {
         IEnumerable<Contracts.Property> propertiesResponse =
-            _properties.Select(x => new Contracts.Property(x.Id, x.Name));
+            _propertiesRepository.GetAll().Select(x => new Contracts.Property(x.Id, x.Name));
         
         return Ok(propertiesResponse);
     }
-
+    
     [HttpGet("{propertyId:guid}")]
     public IActionResult Get([FromRoute] Guid propertyId)
     {
-        Entities.Property? property = _properties.FirstOrDefault(x => x.Id == propertyId);
+        Properties.Domain.Entities.Property? property = _propertiesRepository.GetById(propertyId);
         if (property is null)
         {
             return NotFound();
@@ -40,17 +46,31 @@ public class PropertiesController : ControllerBase
         
         return Ok(propertyResponse);
     }
-
-    [HttpDelete("{propertyId:guid}")]
-    public IActionResult Delete([FromRoute] Guid propertyId)
+    
+    [HttpPut("{propertyId:guid}")]
+    public IActionResult Update([FromRoute] Guid propertyId, UpdatePropertyRequest updatePropertyRequest)
     {
-        Entities.Property? property = _properties.FirstOrDefault(x => x.Id == propertyId);
+        Properties.Domain.Entities.Property? property = _propertiesRepository.GetById(propertyId);
         if (property is null)
         {
             return NotFound();
         }
         
-        _properties.Remove(property);
+        property.Name = updatePropertyRequest.Name;
+        
+        return Ok();
+    }
+
+    [HttpDelete("{propertyId:guid}")]
+    public IActionResult Delete([FromRoute] Guid propertyId)
+    {
+        Properties.Domain.Entities.Property? property = _propertiesRepository.GetById(propertyId);
+        if (property is null)
+        {
+            return NotFound();
+        }
+        
+        _propertiesRepository.Delete(property.Id);
 
         return NoContent();
     }

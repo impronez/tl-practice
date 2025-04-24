@@ -1,4 +1,4 @@
-namespace PropertiesApi.Entities;
+namespace Properties.Domain.Entities;
 
 public class Property
 {
