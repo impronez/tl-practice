@@ -65,9 +65,13 @@ static uint GetUintParameterFromConsole(string parameterName)
     {
         var isParsed = uint.TryParse(Console.ReadLine(), out value);
         if (!isParsed)
+        {
             Console.Write($"Невалидное значение! Введите {parameterName} еще раз: ");
+        }
         else
+        {
             break;
+        }
     }
 
     return value;
