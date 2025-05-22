@@ -1,0 +1,38 @@
+header {
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  color: #f5f5dc;
+  background-color: #201c29;
+  padding: 5px 20px;
+  height: 50px;
+}
+
+.logo {
+  text-transform: uppercase;
+  font-size: 35px;
+  cursor: pointer;
+}
+
+.login-container {
+  display: flex;
+  flex-direction: column;
+  color: #f5f5dc;
+  gap: 2px;
+  margin-top: 5px;
+}
+
+.login-container button {
+  background-color: inherit;
+  border: none;
+  color: #f5f5dc;
+  font-size: 16px;
+  font-weight: 600;
+  padding: 0;
+}
+
+@media (max-width: 399px) {
+  .logo {
+    font-size: 24px;
+  }
+}

@@ -5,6 +5,9 @@
     <meta name="viewport" content="width=device-width, initial-scale=1.0" />
     <title>Json diff</title>
     <link rel="stylesheet" href="src/styles/style.css" />
+    <link rel="stylesheet" href="src/styles/form.css" />
+    <link rel="stylesheet" href="src/styles/header.css" />
+    <link rel="stylesheet" href="src/styles/promo.css" />
   </head>
   <body>
     <header>
@@ -24,25 +27,25 @@
       </section>
 
       <section id="auth">
-        <div class="auth-content">
+        <div class="content-container auth-content">
           <h1>Login Form</h1>
-          <form class="auth-form">
-            <label for="login">LOGIN</label>
-            <div class="auth-form__input-block">
+          <form id="login-form" class="default-form">
+            <label for="login">Login</label>
+            <div class="default-form__input-container">
               <input id="login" type="text" />
               <span hidden>Обязательное поле</span>
             </div>
-            <button id="auth-button">Sign in</button>
+            <button id="auth-button" type="submit">Sign in</button>
           </form>
         </div>
       </section>
 
       <section id="main">
-        <div class="main-content">
-          <form class="main-form">
+        <div class="content-container main-content">
+          <form id="main-form" class="default-form">
             <label for="oldJson">Old json</label>
-            <div class="main-content__input-container">
-              <textarea id="oldJson" rows="10" cols="50">
+            <div class="default-form__input-container">
+              <textarea id="oldJson">
 {
   "timeout": 20,
   "verbose": true,
@@ -52,8 +55,8 @@
               <span hidden></span>
             </div>
             <label for="newJson">New json</label>
-            <div class="main-content__input-container">
-              <textarea id="newJson" rows="10" cols="50">
+            <div class="default-form__input-container">
+              <textarea id="newJson">
 {
   "timeout": 50,
   "proxy": "888.888.88.88",
@@ -62,7 +65,7 @@
               </textarea>
               <span hidden></span>
             </div>
-            <button>Show difference</button>
+            <button id="diff-button">Show difference</button>
           </form>
         <div class="result"><div>
         </div>

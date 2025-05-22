@@ -23,14 +23,17 @@ const create = async (oldObj, newObj) => {
       type: getType(newValue, oldValue),
       oldValue,
       newValue,
-      key
+      key,
     };
   });
 
-  const result = resultArray.reduce((accumulator, { key, ...item }) => ({
-    ...accumulator,
-    [key]: item
-  }), {});
+  const result = resultArray.reduce(
+    (accumulator, { key, ...item }) => ({
+      ...accumulator,
+      [key]: item,
+    }),
+    {}
+  );
 
   return new Promise((resolve, reject) => {
     setTimeout(() => {
@@ -40,5 +43,5 @@ const create = async (oldObj, newObj) => {
 };
 
 export const JsonDiff = {
-  create
+  create,
 };

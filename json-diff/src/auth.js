@@ -1,53 +1,17 @@
-import { showSection } from './navigation.js';
+const USERNAME_KEY = "username";
 
-const loginInfo = document.getElementById('greeting-login');
-const greeting = document.getElementById('greeting');
-const greetingLoginButton = document.getElementById('greeting-login-button');
-const authButton = document.getElementById('auth-button');
-const startButton = document.getElementById('start-button');
-const loginInput = document.getElementById('login');
+export const getUsername = () => {
+  return localStorage.getItem(USERNAME_KEY);
+};
 
-export function updateAuthState(username) {
-  if (username) {
-    loginInfo.textContent = username;
-    greetingLoginButton.innerHTML = 'Log out';
-    greeting.style.display = 'inline';
-    startButton.style.display = 'inline';
-  } else {
-    greetingLoginButton.textContent = 'Log in';
-    greeting.style.display = 'none';
-    startButton.style.display = 'none';
-  }
-}
+export const setUsername = (username) => {
+  localStorage.setItem(USERNAME_KEY, username);
+};
 
-export function initAuth() {
-  authButton.addEventListener('click', (event) => {
-    event.preventDefault();
-    const username = localStorage.getItem('username');
-    
-    if (username) {
-      localStorage.removeItem('username');
-      updateAuthState(null);
-      showSection('promo');
-    } else {
-      if (loginInput.value) {
-        localStorage.setItem('username', loginInput.value);
-        updateAuthState(loginInput.value);
-        showSection('promo');
-      } else {
-        loginInput.nextElementSibling.removeAttribute('hidden');
-      }
-    }
-  });
+export const clearUsername = () => {
+  localStorage.removeItem(USERNAME_KEY);
+};
 
-  greetingLoginButton.addEventListener('click', () => {
-    const username = localStorage.getItem('username');
-    if (username) {
-      localStorage.removeItem('username');
-      updateAuthState(null);
-      showSection('promo');
-    } else {
-      showSection('auth');
-    }
-  });
-}
+export const isAuthenticated = () => {
+  return !!getUsername();
+};
