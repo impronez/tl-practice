@@ -1,0 +1,23 @@
+.textarea {
+  width: 100%;
+  min-height: 150px;
+  height: auto;
+  box-sizing: border-box;
+  padding: 10px;
+  margin: 25px 0;
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  font-size: 14px;
+  font-family: "Inter", sans-serif;
+  resize: none;
+  overflow-y: hidden;
+
+  &::placeholder {
+    color: #909090;
+  }
+}
+
+.textarea:focus {
+  border: 1px solid #919191;
+  outline: none;
+}

@@ -1,0 +1,68 @@
+.sliderContainer {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  gap: 15px;
+  width: 100%;
+  margin: 15px 0;
+}
+
+.sliderLabel {
+  font-size: 20px;
+}
+
+.sliderScale {
+  margin-left: 5px;
+  width: 200px;
+  height: 6px;
+  border: 1px solid #dcdcdc;
+  border-radius: 5px;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+
+.sliderStep {
+  width: 10px;
+  height: 10px;
+  border-radius: 50%;
+  border: 1px solid #dcdcdc;
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  background-color: #ffffff;
+
+  &:first-child {
+    margin-left: -5px;
+  }
+
+  &:last-child {
+    margin-right: -5px;
+  }
+}
+
+.sliderStepActive {
+  width: 15px;
+  height: 15px;
+}
+
+.step-1 {
+  background-color: #f24e1e;
+}
+
+.step-2 {
+  background-color: #ff8311;
+}
+
+.step-3 {
+  background-color: #ff8311;
+}
+
+.step-4 {
+  background-color: #ffc700;
+}
+
+.step-5 {
+  background-color: #ffc700;
+}
