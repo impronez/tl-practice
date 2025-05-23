@@ -1,0 +1,52 @@
+.reviewsListContainer {
+  padding: 20px;
+}
+
+.reviewContainer {
+  padding: 10px 0;
+  display: grid;
+  grid-template-columns: 50px auto;
+  gap: 15px;
+  width: 605px;
+  max-width: 605px;
+}
+
+.reviewContent {
+  max-width: auto;
+}
+
+.reviewInfoContainer {
+  display: flex;
+  align-items: center;
+  gap: 10px;
+  padding-top: 5px;
+}
+
+.reviewInfoContainer:last-child {
+  margin-left: auto;
+}
+
+.username {
+  font-size: 16px;
+  text-align: left;
+  word-break: break-all;
+}
+
+.mark {
+  font-size: 24px;
+  margin-left: auto;
+}
+
+.reviewComment {
+  text-align: left;
+  font-family: "Inter", sans-serif;
+  font-size: 14px;
+  word-break: break-all;
+  padding-right: 10px;
+}
+
+.avatar {
+  width: 50px;
+  height: 50px;
+  border-radius: 50%;
+}
