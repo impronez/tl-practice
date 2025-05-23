@@ -1,18 +1,3 @@
-const isValidJSON = (jsonString) => {
-  try {
-    JSON.parse(jsonString);
-    return true;
-  } catch {
-    return false;
-  }
-};
+import { validateField } from "./validation.js";
 
-export const validateJSONField = (value) => {
-  if (value.trim() === "") {
-    return { valid: false, error: "Обязательное поле" };
-  }
-  if (!isValidJSON(value)) {
-    return { valid: false, error: "Некорректный JSON" };
-  }
-  return { valid: true };
-};
+export const Form = { validateField };

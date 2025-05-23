@@ -1,4 +1,4 @@
-import { validateJSONField } from "./form.js";
+import { Form } from "./form.js";
 import { JsonDiff } from "./json-diff.js";
 
 const checkJsonValidateResults = (
@@ -35,8 +35,14 @@ export const initJsonValidator = () => {
   form.addEventListener(`submit`, async (event) => {
     event.preventDefault();
 
-    const oldJsonValidateResult = validateJSONField(textareaOld.value);
-    const newJsonValidateResult = validateJSONField(textareaNew.value);
+    const oldJsonValidateResult = Form.validateField(
+      textareaOld.value,
+      "json.required"
+    );
+    const newJsonValidateResult = Form.validateField(
+      textareaNew.value,
+      "json.required"
+    );
 
     if (
       !checkJsonValidateResults(oldJsonValidateResult, newJsonValidateResult)

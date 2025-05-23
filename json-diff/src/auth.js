@@ -1,17 +1,24 @@
 const USERNAME_KEY = "username";
 
-export const getUsername = () => {
+const getUsername = () => {
   return localStorage.getItem(USERNAME_KEY);
 };
 
-export const setUsername = (username) => {
+const setUsername = (username) => {
   localStorage.setItem(USERNAME_KEY, username);
 };
 
-export const clearUsername = () => {
+const clearUsername = () => {
   localStorage.removeItem(USERNAME_KEY);
 };
 
-export const isAuthenticated = () => {
+const isAuthenticated = () => {
   return !!getUsername();
+};
+
+export const Auth = {
+  getUsername,
+  setUsername,
+  clearUsername,
+  isAuthenticated,
 };

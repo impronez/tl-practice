@@ -1,10 +1,6 @@
-import {
-  getUsername,
-  setUsername,
-  clearUsername,
-  isAuthenticated,
-} from "./auth.js";
+import { Auth } from "./auth.js";
 import { showSection } from "./navigation.js";
+import { isNullOrEmpty } from "./validation.js";
 
 const loginInfo = document.getElementById("greeting-login");
 const greeting = document.getElementById("greeting");
@@ -26,13 +22,13 @@ export const updateAuthView = (username) => {
   }
 };
 
-export const getLoginInputValue = () => loginInput.value.trim();
+const getLoginInputValue = () => loginInput.value.trim();
 
-export const clearLoginInput = () => {
+const clearLoginInput = () => {
   loginInput.value = "";
 };
 
-export const showLoginError = () => {
+const showLoginError = () => {
   const errorSpan = loginInput.nextElementSibling;
   if (errorSpan) {
     errorSpan.removeAttribute("hidden");
@@ -40,11 +36,11 @@ export const showLoginError = () => {
 };
 
 export const initAuth = () => {
-  updateAuthView(getUsername());
+  updateAuthView(Auth.getUsername());
 
   greetingLoginButton.addEventListener("click", () => {
-    if (isAuthenticated()) {
-      clearUsername();
+    if (Auth.isAuthenticated()) {
+      Auth.clearUsername();
       updateAuthView(null);
       showSection("promo");
     } else {
@@ -55,8 +51,8 @@ export const initAuth = () => {
   authButton.addEventListener("click", (event) => {
     event.preventDefault();
 
-    if (isAuthenticated()) {
-      clearUsername();
+    if (Auth.isAuthenticated()) {
+      Auth.clearUsername();
       updateAuthView(null);
       showSection("promo");
       return;
@@ -68,7 +64,7 @@ export const initAuth = () => {
       return;
     }
 
-    setUsername(inputValue);
+    Auth.setUsername(inputValue);
     updateAuthView(inputValue);
     clearLoginInput();
     showSection("promo");
@@ -76,7 +72,7 @@ export const initAuth = () => {
 
   loginInput.addEventListener("input", () => {
     const errorSpan = loginInput.nextElementSibling;
-    if (loginInput.value.trim() !== "" && errorSpan) {
+    if (!isNullOrEmpty(loginInput.value) && errorSpan) {
       errorSpan.setAttribute("hidden", true);
     }
   });
