@@ -10,11 +10,24 @@ export default function Textarea({ placeholder, onChange }: TextareaProps) {
     onChange?.(e.target.value);
   };
 
+  const handleTextareaInput = (e: React.FormEvent<HTMLTextAreaElement>) => {
+    const target = e.currentTarget;
+    target.style.height = "auto";
+    target.style.height = target.scrollHeight + "px";
+
+    if (target.scrollHeight > target.clientHeight) {
+      window.scrollBy({
+        top: target.scrollHeight,
+      });
+    }
+  };
+
   return (
     <textarea
       className={styles.textarea}
       placeholder={placeholder}
       onChange={handleChange}
+      onInput={handleTextareaInput}
     />
   );
 }

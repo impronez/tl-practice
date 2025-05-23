@@ -1,6 +1,6 @@
 .reviewFormWrapper {
   width: 550px;
-  height: 764px;
+  height: auto;
   border: 1px solid #dcdcdc;
   border-radius: 20px;
 }
