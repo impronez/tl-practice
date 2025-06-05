@@ -1,0 +1,25 @@
+.filterMenuWrapper {
+  display: flex;
+  justify-content: left;
+  align-items: center;
+  flex-wrap: wrap;
+  gap: 5px;
+  padding: 20px;
+  border-radius: 20px;
+  background-color: white;
+  width: 50vw;
+  margin-bottom: 10px;
+}
+
+.setFilterButton {
+  text-align: center;
+  background-color: #3367d7;
+  color: white;
+  padding: 10px;
+  border-radius: 10px;
+}
+
+.clearFiltersButton {
+  background-color: #dc3545;
+  color: white;
+}
