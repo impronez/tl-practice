@@ -1,0 +1,30 @@
+.currenciesInfoButton {
+  background-color: #f2f3f5;
+  height: 35px;
+  border-radius: 20px;
+  padding: 0 40px;
+  display: inline-flex;
+  align-items: center;
+}
+
+.currenciesInfoButtonDivider {
+  flex-grow: 1;
+  height: 1px;
+  background-color: #ccc;
+}
+
+.currenciesInfoButtonIcon {
+  background-repeat: no-repeat;
+  background-size: contain;
+  width: 30px;
+  height: 30px;
+  color: #c9c9c9;
+}
+
+.arrowDownIcon {
+  background-image: url('/src/assets/arrow-down-short.svg');
+}
+
+.arrowUpIcon {
+  background-image: url('/src/assets/arrow-up-short.svg');
+}
