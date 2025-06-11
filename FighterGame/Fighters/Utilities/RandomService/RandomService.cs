@@ -8,6 +8,11 @@ public class RandomService : IRandomService
         {
             throw new ArgumentException($"Min value [{minValue}] must be less than max value [{maxValue}]]");
         }
+        
+        if (minValue == maxValue)
+        {
+            return minValue;
+        }
 
         return Random.Shared.Next(minValue, maxValue);
     }

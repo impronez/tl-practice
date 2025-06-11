@@ -3,27 +3,43 @@ using Fighters.Models.Fighters;
 using Fighters.Models.FighterTypes;
 using Fighters.Models.Races;
 using Fighters.Models.Weapons;
-using Fighters.Utilities;
+using Fighters.Utilities.CommandLine;
 using Fighters.Utilities.FighterInputProvider;
+using Fighters.Utilities.RandomService;
 
 namespace Fighters;
 
-public static class GameManager
+public class GameManager
 {
-    private static readonly IFighterInputProvider FighterInputProvider = new ConsoleFighterInputProvider();
+    private readonly ICommandLine _commandLine;
+    private readonly IFighterInputProvider _fighterInputProvider;
+    private readonly IRandomService _randomService;
 
-    public static void Run()
+    private List<IFighter> _fighters;
+
+    public GameManager(ICommandLine commandLine,
+        IFighterInputProvider fighterInputProvider,
+        IRandomService randomService)
     {
-        Console.WriteLine("Welcome to the Gladiators Game!");
-        Console.WriteLine("Commands:\n'add' - add a fighter\n'battle' - start a battle\n'exit' - exit the game");
+        _commandLine = commandLine;
+        _fighterInputProvider = fighterInputProvider;
+        _randomService = randomService;
+
+        _fighters = new List<IFighter>();
+    }
+
+    public void Run()
+    {
+        _commandLine.WriteLine("Welcome to the Gladiators Game!");
+        _commandLine.WriteLine("Commands:\n'add' - add a fighter\n'battle' - start a battle\n'exit' - exit the game");
 
         var fighters = new List<IFighter>();
 
         while (true)
         {
-            Console.Write("Enter command: ");
+            _commandLine.Write("Enter command: ");
 
-            var command = Console.ReadLine();
+            string? command = _commandLine.ReadLine();
             switch (command?.ToLower())
             {
                 case "add":
@@ -32,47 +48,48 @@ public static class GameManager
                 case "battle":
                     if (fighters.Count < 2)
                     {
-                        Console.WriteLine("Count of fighters must be more than 2!");
+                        _commandLine.WriteLine("Count of fighters must be more than 2!");
                         break;
                     }
 
-                    StartBattle(fighters);
-                    Console.WriteLine($"Battle finished! Winner: {fighters[0].Name}");
+                    StartBattle();
+                    _commandLine.WriteLine($"Battle finished! Winner: {fighters[0].Name}");
                     return;
                 case "exit":
+                    _commandLine.WriteLine("Goodbye!");
                     return;
                 default:
-                    Console.WriteLine($"Command '{command}' is not a valid!");
+                    _commandLine.WriteLine($"Command '{command}' is not a valid!");
                     break;
             }
         }
     }
 
-    private static void StartBattle(List<IFighter> fighters)
+    private void StartBattle()
     {
-        fighters = fighters.OrderByDescending(f => f.Initiative).ToList();
+        _fighters = _fighters.OrderByDescending(f => f.Initiative).ToList();
 
-        while (fighters.Count != 1)
+        while (_fighters.Count > 1)
         {
-            var firstFighter = fighters[0];
-            var secondFighter = fighters[1];
+            IFighter firstFighter = _fighters[0];
+            IFighter secondFighter = _fighters[1];
 
-            Fight(ref fighters, firstFighter, secondFighter);
+            Fight(firstFighter, secondFighter);
         }
     }
 
-    private static void Fight(ref List<IFighter> fighters, IFighter firstFighter, IFighter secondFighter)
+    private void Fight(IFighter firstFighter, IFighter secondFighter)
     {
-        Console.WriteLine($"Battle: {firstFighter.Name} VS {secondFighter.Name}");
-        Console.WriteLine($"First fighter stats:\n{firstFighter.GetStats()}");
-        Console.WriteLine($"Second fighter stats:\n{secondFighter.GetStats()}");
+        _commandLine.WriteLine($"Battle: {firstFighter.Name} VS {secondFighter.Name}");
+        _commandLine.WriteLine($"First fighter stats:\n{firstFighter.GetStats()}");
+        _commandLine.WriteLine($"Second fighter stats:\n{secondFighter.GetStats()}");
 
         while (true)
         {
             if (!firstFighter.IsAlive())
             {
-                Console.WriteLine($"{firstFighter.Name} is dead!");
-                fighters.Remove(firstFighter);
+                _commandLine.WriteLine($"{firstFighter.Name} is dead!");
+                _fighters.Remove(firstFighter);
                 break;
             }
 
@@ -80,8 +97,8 @@ public static class GameManager
 
             if (!secondFighter.IsAlive())
             {
-                Console.WriteLine($"{secondFighter.Name} is dead!");
-                fighters.Remove(secondFighter);
+                _commandLine.WriteLine($"{secondFighter.Name} is dead!");
+                _fighters.Remove(secondFighter);
                 break;
             }
 
@@ -89,27 +106,28 @@ public static class GameManager
         }
     }
 
-    private static void Attack(IFighter attacker, IFighter defender)
+    private void Attack(IFighter attacker, IFighter defender)
     {
         int attackerDamage = attacker.CalculateDamage();
         defender.TakeDamage(attackerDamage);
-        Console.WriteLine($"{attacker.Name} deals {attackerDamage} damage to {defender.Name}");
+        _commandLine.WriteLine($"{attacker.Name} deals {attackerDamage} damage to {defender.Name}");
     }
 
-    private static IFighter GetFighter()
+    private IFighter GetFighter()
     {
-        string name = FighterInputProvider.GetName();
-        int initiative = FighterInputProvider.GetInitiative();
-        IFighterType fighterType = FighterInputProvider.GetFighterType();
-        IRace race = FighterInputProvider.GetRace();
-        IArmor armor = FighterInputProvider.GetArmor();
-        IWeapon weapon = FighterInputProvider.GetWeapon();
+        string name = _fighterInputProvider.GetName();
+        int initiative = _fighterInputProvider.GetInitiative();
+        IFighterType fighterType = _fighterInputProvider.GetFighterType();
+        IRace race = _fighterInputProvider.GetRace();
+        IArmor armor = _fighterInputProvider.GetArmor();
+        IWeapon weapon = _fighterInputProvider.GetWeapon();
 
         return FighterFactory.CreateFighter(name,
             initiative,
             race,
             fighterType,
             armor,
-            weapon);
+            weapon,
+            _randomService);
     }
 }

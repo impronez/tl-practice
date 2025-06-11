@@ -8,8 +8,8 @@ namespace Fighters.Models.Fighters;
 
 public class Fighter : IFighter
 {
-    private const float MinDamageRatio = -0.2f;
-    private const float MaxDamageRatio = 0.1f;
+    public const float MinDamageRatio = -0.2f;
+    public const float MaxDamageRatio = 0.1f;
 
     private IRandomService _randomService;
 
@@ -18,9 +18,10 @@ public class Fighter : IFighter
         IRace race,
         IFighterType fighterType,
         IArmor armor,
-        IWeapon weapon)
+        IWeapon weapon,
+        IRandomService randomService)
     {
-        _randomService = new RandomService();
+        _randomService = randomService;
 
         Name = name;
         Initiative = initiative;
@@ -82,8 +83,8 @@ public class Fighter : IFighter
 
     private bool IsCriticalDamage()
     {
-        int value = _randomService.NextInt(1, 50);
+        int value = _randomService.NextInt(1, 40);
 
-        return value is > 30 and < 40;
+        return value is >= 30 and <= 40;
     }
 }

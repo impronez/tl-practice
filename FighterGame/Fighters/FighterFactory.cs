@@ -3,6 +3,7 @@ using Fighters.Models.Fighters;
 using Fighters.Models.FighterTypes;
 using Fighters.Models.Races;
 using Fighters.Models.Weapons;
+using Fighters.Utilities.RandomService;
 
 namespace Fighters;
 
@@ -13,8 +14,26 @@ public static class FighterFactory
         IRace race,
         IFighterType fighterType,
         IArmor armor,
-        IWeapon weapon)
+        IWeapon weapon,
+        IRandomService randomService)
     {
-        return new Fighter(name, initiative, race, fighterType, armor, weapon);
+        if (string.IsNullOrWhiteSpace(name))
+        {
+            throw new ArgumentException("Name cannot be null or whitespace", nameof(name));
+        }
+
+        if (initiative < IFighter.MinInitiative || initiative > IFighter.MaxInitiative)
+        {
+            throw new ArgumentOutOfRangeException(nameof(initiative), initiative,
+                $"Initiative must be between {IFighter.MinInitiative} and {IFighter.MaxInitiative}");
+        }
+
+        return new Fighter(name,
+            initiative,
+            race,
+            fighterType,
+            armor,
+            weapon,
+            randomService);
     }
 }
