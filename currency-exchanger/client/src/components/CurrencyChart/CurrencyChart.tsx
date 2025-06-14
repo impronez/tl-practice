@@ -1,4 +1,4 @@
-import { useEffect, useState, useMemo } from 'react';
+import { useState, useMemo } from 'react';
 import styles from './CurrencyChart.module.css';
 import {
   Chart as ChartJS,
@@ -16,7 +16,11 @@ import { usePricesStore } from '../../stores/usePricesStore';
 
 ChartJS.register(LineElement, CategoryScale, LinearScale, PointElement, Tooltip, Legend, Title, Filler);
 
-const intervalToMs = {
+const intervals = ['5min', '4min', '3min', '2min', '1min'] as const;
+
+type Interval = (typeof intervals)[number];
+
+const intervalToMs: Record<Interval, number> = {
   '1min': 60 * 1000,
   '2min': 2 * 60 * 1000,
   '3min': 3 * 60 * 1000,
@@ -38,7 +42,7 @@ const getDateTimeLabel = (value: string) => {
 };
 
 export const CurrencyChart = () => {
-  const [selectedInterval, setSelectedInterval] = useState<'5min' | '4min' | '3min' | '2min' | '1min'>('5min');
+  const [selectedInterval, setSelectedInterval] = useState<Interval>('5min');
 
   const prices = usePricesStore((state) => state.prices);
   const error = usePricesStore((state) => state.error);
@@ -88,7 +92,7 @@ export const CurrencyChart = () => {
   return (
     <div className="d-flex flex-column w-50">
       <div className="d-flex justify-content-between mb-3">
-        {(['5min', '4min', '3min', '2min', '1min'] as const).map((interval) => (
+        {intervals.map((interval) => (
           <button
             key={interval}
             className={`${styles.chartSelectButton} ${selectedInterval === interval ? styles.selected : ''}`}

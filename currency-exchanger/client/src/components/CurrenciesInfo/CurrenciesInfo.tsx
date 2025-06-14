@@ -31,7 +31,7 @@ export const CurrenciesInfo = () => {
             setIsOpen(!isOpen);
           }}
         >
-          PLN/CAD: about
+          {`${purchasedCurrency?.code} / ${paymentCurrency?.code}: about`}
           <span
             className={`${styles.currenciesInfoButtonIcon} ${isOpen ? styles.arrowUpIcon : styles.arrowDownIcon}`}
           />
