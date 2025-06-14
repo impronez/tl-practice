@@ -1,0 +1,41 @@
+.reviewFormWrapper {
+  width: 550px;
+  height: auto;
+  border: 1px solid #dcdcdc;
+  border-radius: 20px;
+}
+
+.reviewFormContainer {
+  padding: 40px 80px;
+  color: #404040;
+}
+
+.title {
+  font-size: 24px;
+  font-weight: 500;
+  width: 400px;
+  text-align: left;
+  margin: 0;
+}
+
+.reviewForm {
+  display: flex;
+  flex-direction: column;
+}
+
+.submitButton {
+  width: 140px;
+  align-self: flex-end;
+  background-color: #c0c0c0;
+  color: #ffffff;
+  cursor: not-allowed;
+}
+
+.submitButton:focus {
+  outline: none;
+}
+
+.submitButtonActive {
+  cursor: pointer;
+  background-color: #1e65b7;
+}
