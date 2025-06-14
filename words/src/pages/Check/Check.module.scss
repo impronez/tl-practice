@@ -1,0 +1,28 @@
+.checkWrapper {
+  width: 100%;
+  display: flex;
+  justify-content: left;
+  flex-direction: column;
+  gap: 30px;
+}
+
+.checkTableWrapper {
+  background-color: #fff;
+}
+
+.checkTableCell {
+  border-bottom: none !important;
+  max-width: 300px !important;
+}
+
+.checkTableCellLabel {
+  width: 250px;
+}
+
+.checkButtonMenu {
+  display: flex;
+}
+
+.checkInputWrapper {
+  max-width: 300px;
+}
