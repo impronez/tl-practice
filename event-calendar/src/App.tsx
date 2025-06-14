@@ -69,7 +69,7 @@ function App() {
       });
     }
 
-    dispatch({ type: "RESET" });
+    dispatch({ type: "END_DRAG" });
   };
 
   return (

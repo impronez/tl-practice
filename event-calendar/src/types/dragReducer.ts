@@ -24,8 +24,6 @@ const dragReducer = (state: DragState, action: Action): DragState => {
         targetIndex: action.index,
       };
     case "END_DRAG":
-      return state;
-    case "RESET":
       return initialDragState;
   }
 };

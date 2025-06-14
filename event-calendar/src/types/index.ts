@@ -18,7 +18,6 @@ type DragState = {
 type Action =
   | { type: "START_DRAG"; taskData: TaskData; column: number; index: number }
   | { type: "MOVE_TASK"; column: number; index: number }
-  | { type: "END_DRAG" }
-  | { type: "RESET" };
+  | { type: "END_DRAG" };
 
 export type { TaskData, ColumnData, DragState, Action };
