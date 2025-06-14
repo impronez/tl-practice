@@ -1,7 +1,7 @@
-import { initNavigation } from "./navigation.js";
+import { Navigation } from "./navigation.js";
+import { initJsonDiff } from "./form-controller.js";
 import { initAuth } from "./auth-controller.js";
-import { initJsonValidator } from "./form-controller.js";
 
+Navigation.init();
 initAuth();
-initNavigation();
-initJsonValidator();
+initJsonDiff();

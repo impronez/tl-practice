@@ -32,8 +32,8 @@
           <form id="login-form" class="default-form">
             <label for="login">Login</label>
             <div class="default-form__input-container">
-              <input id="login" type="text" />
-              <span hidden>Обязательное поле</span>
+              <input id="login" type="text" validation-rules="required" />
+              <span hidden></span>
             </div>
             <button id="auth-button" type="submit">Sign in</button>
           </form>
@@ -45,7 +45,7 @@
           <form id="main-form" class="default-form">
             <label for="oldJson">Old json</label>
             <div class="default-form__input-container">
-              <textarea id="oldJson">
+              <textarea id="oldJson" validation-rules="required.json">
 {
   "timeout": 20,
   "verbose": true,
@@ -56,7 +56,7 @@
             </div>
             <label for="newJson">New json</label>
             <div class="default-form__input-container">
-              <textarea id="newJson">
+              <textarea id="newJson" validation-rules="required.json">
 {
   "timeout": 50,
   "proxy": "888.888.88.88",

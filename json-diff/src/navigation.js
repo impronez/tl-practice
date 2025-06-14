@@ -5,24 +5,29 @@ const mainSection = document.getElementById("main");
 
 const startButton = document.getElementById("start-button");
 
-export const initNavigation = () => {
+const init = () => {
   logo.addEventListener("click", () => {
-    showSection("promo");
+    navigateTo("promo");
   });
 
   startButton.addEventListener("click", () => {
     const username = localStorage.getItem("username");
 
     if (username) {
-      showSection("main");
+      navigateTo("main");
     }
   });
 };
 
-export const showSection = (sectionId) => {
+const navigateTo = (sectionId) => {
   promoSection.classList.remove("visible");
   authSection.classList.remove("visible");
   mainSection.classList.remove("visible");
 
   document.getElementById(sectionId).classList.add("visible");
+};
+
+export const Navigation = {
+  init,
+  navigateTo,
 };

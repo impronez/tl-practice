@@ -1,17 +1,17 @@
+import { validateForm } from "./validation.js";
 import { Auth } from "./auth.js";
-import { showSection } from "./navigation.js";
-import { isNullOrEmpty } from "./validation.js";
+import { Navigation } from "./navigation.js";
 
+const authForm = document.getElementById("login-form");
+const loginInput = document.getElementById("login");
 const loginInfo = document.getElementById("greeting-login");
 const greeting = document.getElementById("greeting");
 const greetingLoginButton = document.getElementById("greeting-login-button");
-const authButton = document.getElementById("auth-button");
 const startButton = document.getElementById("start-button");
-const loginInput = document.getElementById("login");
 
-export const updateAuthView = (username) => {
-  if (username) {
-    loginInfo.textContent = username;
+const updateGreetingInfo = () => {
+  if (Auth.isAuthenticated()) {
+    loginInfo.textContent = Auth.getUsername();
     greetingLoginButton.textContent = "Log out";
     greeting.style.display = "inline";
     startButton.style.display = "inline";
@@ -22,58 +22,28 @@ export const updateAuthView = (username) => {
   }
 };
 
-const getLoginInputValue = () => loginInput.value.trim();
-
-const clearLoginInput = () => {
-  loginInput.value = "";
-};
-
-const showLoginError = () => {
-  const errorSpan = loginInput.nextElementSibling;
-  if (errorSpan) {
-    errorSpan.removeAttribute("hidden");
-  }
-};
-
 export const initAuth = () => {
-  updateAuthView(Auth.getUsername());
+  updateGreetingInfo();
 
   greetingLoginButton.addEventListener("click", () => {
     if (Auth.isAuthenticated()) {
       Auth.clearUsername();
-      updateAuthView(null);
-      showSection("promo");
+      updateGreetingInfo();
+      Navigation.navigateTo("promo");
     } else {
-      showSection("auth");
+      Navigation.navigateTo("auth");
     }
   });
 
-  authButton.addEventListener("click", (event) => {
+  authForm.addEventListener("submit", (event) => {
     event.preventDefault();
 
-    if (Auth.isAuthenticated()) {
-      Auth.clearUsername();
-      updateAuthView(null);
-      showSection("promo");
-      return;
-    }
+    const isFormValid = validateForm(authForm);
+    if (!isFormValid) return;
 
-    const inputValue = getLoginInputValue();
-    if (!inputValue) {
-      showLoginError();
-      return;
-    }
-
-    Auth.setUsername(inputValue);
-    updateAuthView(inputValue);
-    clearLoginInput();
-    showSection("promo");
-  });
-
-  loginInput.addEventListener("input", () => {
-    const errorSpan = loginInput.nextElementSibling;
-    if (!isNullOrEmpty(loginInput.value) && errorSpan) {
-      errorSpan.setAttribute("hidden", true);
-    }
+    Auth.setUsername(loginInput.value);
+    updateGreetingInfo();
+    loginInput.value = "";
+    Navigation.navigateTo("promo");
   });
 };

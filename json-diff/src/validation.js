@@ -1,22 +1,41 @@
-const isValidJSON = (jsonString) => {
-  try {
-    JSON.parse(jsonString);
-    return true;
-  } catch {
-    return false;
-  }
-};
+export const validateForm = (formElement) => {
+  let isValid = true;
 
-export const isNullOrEmpty = (value) => {
-  return value === null || value === undefined || value.trim() === "";
-};
+  const fields = formElement.querySelectorAll(
+    "input[validation-rules], textarea[validation-rules]"
+  );
 
-export const validateField = (value, rules = []) => {
-  if (rules.includes(`required`) && isNullOrEmpty(value)) {
-    return { valid: false, error: "Обязательное поле" };
-  }
-  if (rules.includes(`json`) && !isValidJSON(value)) {
-    return { valid: false, error: "Некорректный JSON" };
-  }
-  return { valid: true };
+  fields.forEach((field) => {
+    const rules = field.getAttribute("validation-rules").split(".");
+    const value = field.value.trim();
+    const errorSpan = field.nextElementSibling;
+
+    let fieldValid = true;
+    let errorMessage = "";
+
+    if (rules.includes("required") && value === "") {
+      fieldValid = false;
+      errorMessage = "Обязательное поле";
+    }
+
+    if (fieldValid && rules.includes("json")) {
+      try {
+        JSON.parse(value);
+      } catch (e) {
+        fieldValid = false;
+        errorMessage = "Некорректный JSON";
+      }
+    }
+
+    if (!fieldValid) {
+      errorSpan.textContent = errorMessage;
+      errorSpan.hidden = false;
+      isValid = false;
+    } else {
+      errorSpan.textContent = "";
+      errorSpan.hidden = true;
+    }
+  });
+
+  return isValid;
 };

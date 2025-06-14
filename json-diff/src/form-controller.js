@@ -1,31 +1,7 @@
-import { Form } from "./form.js";
+import { validateForm } from "./validation.js";
 import { JsonDiff } from "./json-diff.js";
 
-const checkJsonValidateResults = (
-  oldJsonValidateResult,
-  newJsonValidateResult
-) => {
-  const oldJsonErrorSpan = document.querySelector(`#oldJson + span`);
-  const newJsonErrorSpan = document.querySelector(`#newJson + span`);
-
-  if (!oldJsonValidateResult.valid) {
-    oldJsonErrorSpan.innerHTML = oldJsonValidateResult.error;
-    oldJsonErrorSpan.removeAttribute("hidden");
-  } else {
-    oldJsonErrorSpan.setAttribute("hidden", true);
-  }
-
-  if (!newJsonValidateResult.valid) {
-    newJsonErrorSpan.innerHTML = newJsonValidateResult.error;
-    newJsonErrorSpan.removeAttribute("hidden");
-  } else {
-    newJsonErrorSpan.setAttribute("hidden", true);
-  }
-
-  return oldJsonValidateResult.valid && newJsonValidateResult.valid;
-};
-
-export const initJsonValidator = () => {
+export const initJsonDiff = () => {
   const form = document.getElementById("main-form");
   const textareaOld = document.querySelector(`#oldJson`);
   const textareaNew = document.querySelector(`#newJson`);
@@ -35,20 +11,8 @@ export const initJsonValidator = () => {
   form.addEventListener(`submit`, async (event) => {
     event.preventDefault();
 
-    const oldJsonValidateResult = Form.validateField(
-      textareaOld.value,
-      "json.required"
-    );
-    const newJsonValidateResult = Form.validateField(
-      textareaNew.value,
-      "json.required"
-    );
-
-    if (
-      !checkJsonValidateResults(oldJsonValidateResult, newJsonValidateResult)
-    ) {
-      return;
-    }
+    const isFormValid = validateForm(form);
+    if (!isFormValid) return;
 
     const defaultButtonHtml = compareButton.innerHTML;
     compareButton.innerHTML = `Loading...`;
