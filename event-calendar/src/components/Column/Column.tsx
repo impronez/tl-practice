@@ -44,12 +44,10 @@ export const Column = ({
       : base;
   })();
 
-  const handleMouseEnter = (index: number) => {
+  const handleMouseEnter = (inputIndex: number) => {
     if (!draggingTask) return;
 
-    if (index > data.tasks.length) {
-      index = data.tasks.length;
-    }
+    const index = Math.min(inputIndex, data.tasks.length);
 
     if (
       dragState.targetColumnId !== columnIndex ||
