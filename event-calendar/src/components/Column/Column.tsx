@@ -25,23 +25,34 @@ export const Column = ({
   const draggingTask = dragState.draggingTaskData;
 
   const displayedTasks = (() => {
-    const base = [...data.tasks];
+    const tasks = data.tasks;
 
-    if (
+    const isDraggingOverThisColumn =
       draggingTask &&
       dragState.targetColumnId === columnIndex &&
-      hoverIndex !== null
-    ) {
-      const taskIndex = base.findIndex((t) => t?.id === draggingTask.id);
-      if (taskIndex !== -1) {
-        base.splice(taskIndex, 1);
-      }
-      base.splice(hoverIndex, 0, draggingTask);
-    }
+      hoverIndex !== null;
 
-    return base.length < MAX_TASKS_PER_COLUMN
-      ? [...base, ...Array(MAX_TASKS_PER_COLUMN - base.length).fill(null)]
-      : base;
+    const updatedTasks = isDraggingOverThisColumn
+      ? (() => {
+          const withoutDragging = tasks.filter(
+            (t) => t?.id !== draggingTask.id
+          );
+          return [
+            ...withoutDragging.slice(0, hoverIndex),
+            draggingTask,
+            ...withoutDragging.slice(hoverIndex),
+          ];
+        })()
+      : tasks;
+
+    const resultTasks = [
+      ...updatedTasks,
+      ...Array(Math.max(0, MAX_TASKS_PER_COLUMN - updatedTasks.length)).fill(
+        null
+      ),
+    ];
+
+    return resultTasks.slice(0, MAX_TASKS_PER_COLUMN);
   })();
 
   const handleMouseEnter = (inputIndex: number) => {

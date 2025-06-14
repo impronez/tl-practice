@@ -27,45 +27,41 @@ function App() {
       targetIndex != null
     ) {
       setColumns((prevColumns) => {
-        const updated = [...prevColumns];
+        const sourceColumn = prevColumns[sourceColumnId];
+        const targetColumn = prevColumns[targetColumnId];
 
-        const sourceColumn = { ...updated[sourceColumnId] };
-        const sourceTasks = [...sourceColumn.tasks];
-
-        const task = sourceTasks[sourceIndex];
+        const task = sourceColumn.tasks[sourceIndex];
         if (!task) return prevColumns;
 
-        sourceTasks.splice(sourceIndex, 1);
+        const newSourceTasks = [
+          ...sourceColumn.tasks.slice(0, sourceIndex),
+          ...sourceColumn.tasks.slice(sourceIndex + 1),
+        ];
 
-        if (sourceColumnId === targetColumnId) {
-          const tasks = moveItemInArray(
-            sourceColumn.tasks,
-            sourceIndex,
-            targetIndex
-          );
+        const newTargetTasks =
+          sourceColumnId === targetColumnId
+            ? moveItemInArray(sourceColumn.tasks, sourceIndex, targetIndex)
+            : [
+                ...targetColumn.tasks.slice(0, targetIndex),
+                task,
+                ...targetColumn.tasks.slice(targetIndex),
+              ];
 
-          updated[sourceColumnId] = {
-            ...sourceColumn,
-            tasks: tasks,
-          };
-        } else {
-          const targetColumn = { ...updated[targetColumnId] };
-          const targetTasks = [...targetColumn.tasks];
+        return prevColumns.map((col, i) => {
+          if (i === sourceColumnId && i === targetColumnId) {
+            return { ...col, tasks: newTargetTasks };
+          }
 
-          targetTasks.splice(targetIndex, 0, task);
+          if (i === sourceColumnId) {
+            return { ...col, tasks: newSourceTasks };
+          }
 
-          updated[sourceColumnId] = {
-            ...sourceColumn,
-            tasks: sourceTasks,
-          };
+          if (i === targetColumnId) {
+            return { ...col, tasks: newTargetTasks };
+          }
 
-          updated[targetColumnId] = {
-            ...targetColumn,
-            tasks: targetTasks,
-          };
-        }
-
-        return updated;
+          return col;
+        });
       });
     }
 
