@@ -9,7 +9,7 @@ export const Header = ({ title }: HeaderProps) => {
   return (
     <div className={styles.headerWrapper}>
       <BackButton />
-      <span className={styles.headerTitle}>{title}</span>
+      <h1 className={styles.headerTitle}>{title}</h1>
     </div>
   );
 };

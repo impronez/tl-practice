@@ -55,7 +55,7 @@ export const Check = () => {
 
   return (
     <div className={styles.checkWrapper}>
-      <Typography align="left">
+      <Typography align="left" color="black">
         Слово: {currentIndex + 1} из {words.length}
       </Typography>
       <Table className={styles.checkTableWrapper}>
