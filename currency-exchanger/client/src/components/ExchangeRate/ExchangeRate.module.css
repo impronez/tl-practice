@@ -1,0 +1,12 @@
+.noMargin {
+  margin: 0;
+}
+
+.currencyLabelFrom {
+  color: #8981a1;
+}
+
+.currencyLabelTo {
+  font-size: 36px;
+  color: black;
+}

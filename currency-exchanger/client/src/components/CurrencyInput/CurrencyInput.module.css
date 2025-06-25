@@ -1,0 +1,27 @@
+.currencyInputWrapper {
+  height: 40px;
+  width: 100%;
+  border: 1px solid #ccc;
+  border-radius: 5px;
+  padding: 5px;
+  display: inline-flex;
+}
+
+.currencyInput {
+  border: none;
+  outline: none;
+  padding: 0 10px;
+}
+
+.currencyInputDivider {
+  width: 1px;
+  background-color: #c9c9c9;
+}
+
+.amountInput {
+  width: 30%;
+}
+
+.currencySelect {
+  width: 70%;
+}
