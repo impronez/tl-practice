@@ -1,0 +1,38 @@
+.promo-content {
+  text-align: center;
+}
+
+.promo-content p {
+  font-size: xx-large;
+  font-weight: bold;
+}
+
+.promo-content button {
+  border: none;
+  background-color: inherit;
+  color: #3d85c6;
+  font-size: 40px;
+  font-weight: 900;
+}
+
+.promo-content span {
+  font-weight: 900;
+}
+
+.promo-content span:first-child {
+  color: #8b0000;
+}
+
+.promo-content span:nth-child(2) {
+  color: #ff8c00;
+}
+
+@media (max-width: 399px) {
+  .promo-content P {
+    font-size: x-large;
+  }
+
+  .promo-content button {
+    font-size: 30px;
+  }
+}

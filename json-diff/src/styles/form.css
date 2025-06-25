@@ -1,0 +1,44 @@
+.default-form {
+  display: grid;
+  gap: 25px;
+  text-align: left;
+}
+
+.default-form label {
+  text-transform: uppercase;
+  text-align: center;
+  margin-top: 10px;
+}
+
+.default-form button {
+  font-size: 16px;
+  padding: 10px 0;
+  text-transform: uppercase;
+  background-color: #808080;
+  color: white;
+}
+
+.default-form button:hover {
+  background-color: gold;
+}
+
+.default-form__input-container {
+  display: flex;
+  flex-direction: column;
+}
+
+.default-form__input-container span {
+  color: red;
+  font-size: 14px;
+  margin-top: 5px;
+}
+
+@media (min-width: 400px) {
+  .default-form {
+    grid-template-columns: 100px 1fr;
+  }
+
+  .default-form button {
+    grid-column: 2 / 3;
+  }
+}
