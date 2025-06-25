@@ -1,0 +1,24 @@
+.wordEditorWrapper {
+  width: 100%;
+  display: flex;
+  flex-direction: column;
+  justify-content: left;
+  gap: 30px;
+}
+
+.wordEditorTableWrapper {
+  background-color: white;
+}
+
+.wordEditorTableCell {
+  border-bottom: none;
+}
+
+.wordEditorInputLabel {
+  width: 15vw;
+}
+
+.wordEditorMenu {
+  display: flex;
+  gap: 10px;
+}
